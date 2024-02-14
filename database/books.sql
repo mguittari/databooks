@@ -22,7 +22,9 @@ VALUES ("John", "Steinbeck", "1902-02-27", "USA", 1),
 ("Virginia", "Woolf", "1982-01-25", "England", 0),
 ("Michel", "Houellebecq", "1956-02-26", "France", 0),
 ("James", "Joyce", "1882-02-02", "Ireland", 1);
-("William", "Burroughs", "1914-05-02", "USA", 1);
+("William", "Burroughs", "1914-05-02", "USA", 1),
+("Eleanor", "Catton", "1985-09-24", "New Zealand", 0);
+
 
 INSERT INTO book(title, year, author_id)
 VALUES ("The Years", "1937", 4),

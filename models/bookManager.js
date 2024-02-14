@@ -16,6 +16,12 @@ class BookManager extends AbstractManager {
     `insert into book(title, year, author_id) values(?, ?, ?)`, [title, year, author_id]
     );
   }
+  queryUpdateBook({title, year, author_id, id}) {
+    return this.database.query(
+    `update book set title = ?, year = ?, author_id = ? where id = ?`,
+      [title, year, author_id, id]
+    );
+  }
 };
 
 module.exports = new BookManager();

@@ -16,6 +16,8 @@ router.get("/books/:id", bookController.getBookById);
 
 router.post("/books", bookController.addNewBook);
 
+router.put("/books/:id", bookController.updateBook);
+
 
 
 

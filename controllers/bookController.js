@@ -25,9 +25,31 @@ const addNewBook = async (req, res) => {
       const book = req.body;
       const [result] = await bookManager.queryAddNewBook(book);
       if (result.affectedRows) {
+        console.log([result]);
         res.send(`Book created with id : ${result.insertId}`);
       } else {
-        res.status(401).send("Error, update problem...");
+        res.status(401).send("Unauthorized access");
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
+
+  const updateBook = async (req, res) => {
+    
+    try {
+      const { id } = req.params;
+      const { title, year, author_id } = req.body;
+      const [result] = await bookManager.queryUpdateBook(
+        {title,
+        year,
+        author_id,
+        id}
+      );
+      if (result.affectedRows) {
+        res.send("Book updated !");
+      } else {
+        res.status(401).send("Unauthorized access");
       }
     } catch (error) {
       res.status(500).send(error);
@@ -35,4 +57,4 @@ const addNewBook = async (req, res) => {
   };
 
 
- module.exports = { getAllBooks, getBookById, addNewBook };
+ module.exports = { getAllBooks, getBookById, addNewBook, updateBook };
