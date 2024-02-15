@@ -18,6 +18,8 @@ router.post("/books", bookController.addNewBook);
 
 router.put("/books/:id", bookController.updateBook);
 
+router.delete("/books/:id", bookController.deleteBook);
+
 
 
 

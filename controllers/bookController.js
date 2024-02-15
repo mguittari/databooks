@@ -13,8 +13,11 @@ const getBookById = async (req, res) => {
 const { id } = req.params;
 try {
       const [book] = await bookManager.queryGetBookById(id);
-      res.json(book);
-      console.log(book);
+      if (book[0] != null) {
+        res.json(book[0]);
+      } else {
+        res.sendStatus(404);
+      }
     } catch (error) {
       res.status(404).json({ error: "Book not found" });
     }
@@ -25,7 +28,6 @@ const addNewBook = async (req, res) => {
       const book = req.body;
       const [result] = await bookManager.queryAddNewBook(book);
       if (result.affectedRows) {
-        console.log([result]);
         res.send(`Book created with id : ${result.insertId}`);
       } else {
         res.status(401).send("Unauthorized access");
@@ -35,8 +37,7 @@ const addNewBook = async (req, res) => {
     }
   };
 
-  const updateBook = async (req, res) => {
-    
+const updateBook = async (req, res) => {
     try {
       const { id } = req.params;
       const { title, year, author_id } = req.body;
@@ -56,5 +57,21 @@ const addNewBook = async (req, res) => {
     }
   };
 
+  const deleteBook = async (req, res) => {
+    try {
+      const { id } = req.params;
 
- module.exports = { getAllBooks, getBookById, addNewBook, updateBook };
+      const [result] = await bookManager.queryDeleteBook(id);
+
+      if (result.affectedRows) {
+        res.send("Book deleted successfully");
+      } else {
+        res.status(401).send("Unauthorized access");
+      }
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  };
+
+
+ module.exports = { getAllBooks, getBookById, addNewBook, updateBook, deleteBook };

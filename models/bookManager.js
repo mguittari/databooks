@@ -22,6 +22,9 @@ class BookManager extends AbstractManager {
       [title, year, author_id, id]
     );
   }
+  queryDeleteBook(id) {
+    return this.database.query(`delete from book where id=${id}`);
+  }
 };
 
 module.exports = new BookManager();
