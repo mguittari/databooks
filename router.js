@@ -9,16 +9,17 @@ const router = express.Router();
 // router.get("/users", userController.getAllUsers);
 // router.post("/login", userController.getUserByEmail);
 
-const bookController = require("./controllers/bookController")
+const bookController = require("./controllers/bookController");
 
 router.get("/books", bookController.getAllBooks);
 router.get("/books/:id", bookController.getBookById);
-
 router.post("/books", bookController.addNewBook);
-
 router.put("/books/:id", bookController.updateBook);
-
 router.delete("/books/:id", bookController.deleteBook);
+
+const authorController = require("./controllers/authorController");
+
+router.get("/authors", authorController.getAllAuthors);
 
 
 

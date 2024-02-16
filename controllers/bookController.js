@@ -74,4 +74,4 @@ const updateBook = async (req, res) => {
   };
 
 
- module.exports = { getAllBooks, getBookById, addNewBook, updateBook, deleteBook };
+module.exports = { getAllBooks, getBookById, addNewBook, updateBook, deleteBook };
