@@ -15,6 +15,15 @@ CREATE TABLE author(
     is_dead BOOLEAN
 );
 
+CREATE TABLE user (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(50) NOT NULL,
+  email VARCHAR(100) NOT NULL UNIQUE,
+  password_hash VARCHAR(255),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
 INSERT INTO author(firstname, lastname, birthday, country, is_dead)
 VALUES ("John", "Steinbeck", "1902-02-27", "USA", 1),
 ("Henry", "Miller", "1891-12-26", "USA", 1),
@@ -24,9 +33,10 @@ VALUES ("John", "Steinbeck", "1902-02-27", "USA", 1),
 ("James", "Joyce", "1882-02-02", "Ireland", 1),
 ("William", "Burroughs", "1914-05-02", "USA", 1),
 ("Eleanor", "Catton", "1985-09-24", "New Zealand", 0),
-("James Graham", "Ballard", "1930-11-15", "England", 1);
-("Marguerite", "Duras", "1914-04-04", "France", 1);
-
+("James Graham", "Ballard", "1930-11-15", "England", 1),
+("Roberto", "Bolaño", "1953-04-28", "Mexico", 1),
+("Marguerite", "Duras", "1914-04-04", "France", 1),
+("Philip", "K. Dick", "1928-12-16", "USA", 1);
 
 INSERT INTO book(title, year, author_id)
 VALUES ("The Years", "1937", 4),
@@ -40,5 +50,7 @@ VALUES ("The Years", "1937", 4),
 ("La Carte et le Territoire", "2010", 5),
 ("Extension du domaine de la lutte", "1994", 5),
 ("Ulysse", "1920", 6);
+
+
 
 

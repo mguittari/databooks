@@ -18,7 +18,7 @@ class BookManager extends AbstractManager {
   }
   queryUpdateBook({title, year, author_id, id}) {
     return this.database.query(
-    `update book set title = ?, year = ?, author_id = ? where id = ?`,
+    `update book set title = ?, year = ?, author_id = ? where id =${id}`,
       [title, year, author_id, id]
     );
   }

@@ -20,6 +20,11 @@ router.delete("/books/:id", bookController.deleteBook);
 const authorController = require("./controllers/authorController");
 
 router.get("/authors", authorController.getAllAuthors);
+router.get("/authors/:id", authorController.getAuthorById);
+router.post("/authors", authorController.addNewAuthor);
+router.put("/authors/:id", authorController.updateAuthor);
+router.delete("/authors/:id", authorController.deleteAuthor);
+router.get("/authors/:id/books", authorController.getAllBooksByAuthor);
 
 
 

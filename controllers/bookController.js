@@ -16,10 +16,10 @@ try {
       if (book[0] != null) {
         res.json(book[0]);
       } else {
-        res.sendStatus(404);
+        res.status(404).send("Book not found");
       }
     } catch (error) {
-      res.status(404).json({ error: "Book not found" });
+      res.status(500).json(error);
     }
 };
 
