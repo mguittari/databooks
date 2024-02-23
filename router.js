@@ -6,8 +6,7 @@ const router = express.Router();
 // router.get("/", (req, res) => {
 //   res.send("welcome in my app");
 // });
-// router.get("/users", userController.getAllUsers);
-// router.post("/login", userController.getUserByEmail);
+
 
 const bookController = require("./controllers/bookController");
 
@@ -25,6 +24,16 @@ router.post("/authors", authorController.addNewAuthor);
 router.put("/authors/:id", authorController.updateAuthor);
 router.delete("/authors/:id", authorController.deleteAuthor);
 router.get("/authors/:id/books", authorController.getAllBooksByAuthor);
+
+const hashPassword = require("./middlewares/hashPassword");
+const verifyToken = require("./middlewares/auth");
+const adminController = require("./controllers/adminController");
+
+router.get("/admins", adminController.getAllAdmins);
+router.post("/admins", hashPassword, adminController.addNewAdmin);
+router.post("/login", adminController.getAdminByEmail);
+router.get("/me", verifyToken, adminController.getAdminById);
+
 
 
 

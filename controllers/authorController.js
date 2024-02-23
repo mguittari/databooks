@@ -28,26 +28,23 @@ const getAllBooksByAuthor = async (req,res) =>{
             const {id} = req.params;
             const [result] = await authorManager.queryGetAllBooksByAuthor(id);
             
-
+console.log(result[0]);
     if (result[0] != null && result[0].books != null && result[0].books.length > 0) {
         result[0].books.sort((a, b) => {
                 const yearA = parseInt(a.result.split(', ')[1]);
                 const yearB = parseInt(b.result.split(', ')[1]);
                 return yearA - yearB;
             });
+            console.log(result[0]);
             res.json(result);
         } else {
             res.status(401).send("Author does not exist or has no books");
         }
         } catch (error) {
-        if (error.message.includes("Author does not exist")) {
-            res.status(401).send("Author does not exist");
-        } else {
-            console.error("Error:", error);
             res.status(500).send(error.message);
         }
-    }
-};
+    };
+
 
 const addNewAuthor = async (req, res) => {
     try {
