@@ -13,7 +13,7 @@ const verifyToken = (req, res, next) => {
       next();
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(401).send(error);
   }
 };
 

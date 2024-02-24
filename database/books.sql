@@ -2,6 +2,7 @@ CREATE TABLE book(
     id INT PRIMARY KEY auto_increment,
     title VARCHAR(100),
     year VARCHAR(4),
+    category VARCHAR(50),
     author_id INT,
     FOREIGN KEY (author_id) REFERENCES author(id)
 );
@@ -38,19 +39,18 @@ VALUES ("John", "Steinbeck", "1902-02-27", "USA", 1),
 ("Marguerite", "Duras", "1914-04-04", "France", 1),
 ("Philip", "K. Dick", "1928-12-16", "USA", 1);
 
-INSERT INTO book(title, year, author_id)
-VALUES ("The Years", "1937", 4),
-("The Waves", "1931", 4),
-("East of Eden", "1952", 1),
-("Cannery Row", "1945", 1),
-("The Grapes of Wrath", "1939", 1),
-("Tender Buttons", "1914", 3),
-("Sexus", "1945", 2),
-("Plexus", "1952", 2),
-("La Carte et le Territoire", "2010", 5),
-("Extension du domaine de la lutte", "1994", 5),
-("Ulysse", "1920", 6);
 
-
+INSERT INTO book(title, year, category, author_id)
+VALUES ("The Years","1937", "Novel", 4),
+("The Waves", "1931", "Novel", 4),
+("East of Eden", "1952", "Novel", 1),
+("Cannery Row", "1945", "Novel", 1),
+("The Grapes of Wrath", "Novel", "1939", 1),
+("Tender Buttons", "Poetry", "1914", 3),
+("Sexus", "1945", "Novel", 2),
+("Plexus", "1952", "Novel", 2),
+("La Carte et le Territoire","2010", "Novel",  5),
+("Extension du domaine de la lutte", "1994", "Novel", 5),
+("Ulysses", "1920", "Novel", 6);
 
 

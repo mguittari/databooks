@@ -2,8 +2,12 @@ const bookManager = require("../models/bookManager");
 
 const getAllBooks = async (req, res) => {
 try {
- const [books] = await bookManager.queryGetAllBooks();
+ let { category } = req.query;
+ 
+ 
+ const [books] = await bookManager.queryGetAllBooks(category);
    res.send(books);
+   
   } catch (error) {
      res.status(500).send(error);
   }
