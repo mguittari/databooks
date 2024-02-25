@@ -1,15 +1,32 @@
 const AbstractManager = require("./abstractManager");
 
 class BookManager extends AbstractManager {
-  queryGetAllBooks(category) {
-    let query = 'select * from book';
-    
-    if (category) {
-      query += ` where replace(category, ' ', '') = '${category}'`;
-    }
-    
+  queryGetAllBooks(category, year) {
+     let query = 'SELECT * FROM book';
 
-    return this.database.query(query);
+  if (category && year) {
+    query += ` WHERE REPLACE(category, ' ', '') = '${category}' AND year <= '${year}' ORDER BY year`;
+  } else if (category) {
+    query += ` WHERE REPLACE(category, ' ', '') = '${category}' ORDER BY year`;
+  } else if (year) {
+    query += ` WHERE year <= '${year}' ORDER BY year`;
+  }
+
+  return this.database.query(query);
+}
+  queryGetAllBooksWithAuthors() {
+    return this.database.query(
+    `SELECT a.firstname, a.lastname, b.title, b.year FROM author as a JOIN book as b ON a.id = b.author_id;`
+    );
+  }
+  queryGetAllBooksWithAuthorId(id) {
+    return this.database.query(
+    `SELECT a.firstname, a.lastname, b.title, b.year
+    FROM author as a
+    JOIN book as b ON a.id = b.author_id
+    WHERE a.id = ${id}
+    ORDER BY year ASC`
+    );
   }
   queryGetBookById(id) {
     return this.database.query(

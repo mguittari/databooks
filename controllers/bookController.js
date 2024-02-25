@@ -2,11 +2,31 @@ const bookManager = require("../models/bookManager");
 
 const getAllBooks = async (req, res) => {
 try {
- let { category } = req.query;
+ let { category, year } = req.query;
  
- 
- const [books] = await bookManager.queryGetAllBooks(category);
+ const [books] = await bookManager.queryGetAllBooks(category, year);
    res.send(books);
+   
+  } catch (error) {
+     res.status(500).send(error);
+  }
+ };
+
+ const getAllBooksWithAuthors = async (req, res) => {
+try {
+ const [rows] = await bookManager.queryGetAllBooksWithAuthors();
+   res.send(rows);
+   
+  } catch (error) {
+     res.status(500).send(error);
+  }
+ };
+
+ const getAllBooksWithAuthorId = async (req, res) => {
+try {
+  const { id } = req.params;
+ const [rows] = await bookManager.queryGetAllBooksWithAuthorId(id);
+   res.send(rows);
    
   } catch (error) {
      res.status(500).send(error);
@@ -78,4 +98,4 @@ const updateBook = async (req, res) => {
   };
 
 
-module.exports = { getAllBooks, getBookById, addNewBook, updateBook, deleteBook };
+module.exports = { getAllBooks, getBookById, addNewBook, updateBook, deleteBook, getAllBooksWithAuthors, getAllBooksWithAuthorId };

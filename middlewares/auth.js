@@ -11,10 +11,13 @@ const verifyToken = (req, res, next) => {
 
       req.payload = payload;
       next();
-    }
+    } 
   } catch (error) {
     res.status(401).send(error);
   }
+  
 };
 
-module.exports = verifyToken;
+
+
+module.exports = { verifyToken };

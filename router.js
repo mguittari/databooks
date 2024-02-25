@@ -2,27 +2,26 @@ const express = require("express");
 
 const router = express.Router();
 
-// const userController = require("./controllers/userController");
-// router.get("/", (req, res) => {
-//   res.send("welcome in my app");
-// });
-
-
 const bookController = require("./controllers/bookController");
 const authorController = require("./controllers/authorController");
-const adminController = require("./controllers/adminController");
-const verifyToken = require("./middlewares/auth");
+const userController = require("./controllers/userController");
+const { verifyToken } = require("./middlewares/auth");
 const hashPassword = require("./middlewares/hashPassword");
 
 // route publique (il y en a une seule : formulaire pour se connecter au logiciel)
 
-router.post("/login", adminController.getAdminByEmail);
+router.post("/login", userController.getUserByEmail);
 
-// routes privées (il faut être connecté pour avoir accès aux fonctionnalités CRUD du logiciel)
+// routes bibliothécaires (il faut être connecté pour avoir accès aux fonctionnalités CRUD du logiciel)
 
 router.use(verifyToken);
 
+router.get("/users", userController.getAllUsers);
+router.post("/users", hashPassword, userController.addNewUser);
+
 router.get("/books", bookController.getAllBooks);
+router.get("/books-authors", bookController.getAllBooksWithAuthors);
+router.get("/books-authors/:id", bookController.getAllBooksWithAuthorId);
 router.get("/books/:id", bookController.getBookById);
 router.post("/books", bookController.addNewBook);
 router.put("/books/:id", bookController.updateBook);
@@ -35,10 +34,11 @@ router.put("/authors/:id", authorController.updateAuthor);
 router.delete("/authors/:id", authorController.deleteAuthor);
 router.get("/authors/:id/books", authorController.getAllBooksByAuthor);
 
-router.get("/admins", adminController.getAllAdmins);
-router.post("/admins", hashPassword, adminController.addNewAdmin);
-router.post("/login", adminController.getAdminByEmail);
-router.get("/me", adminController.getAdminById);
+// routes admins (l'admin gère les comptes des bibliothécaires en plus des autres fonctionnalités du logiciel de gestion)
+
+router.get("/users", userController.getAllUsers);
+router.post("/users", hashPassword, userController.addNewUser);
+router.get("/me", userController.getUserById);
 
 
 

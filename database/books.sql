@@ -16,11 +16,12 @@ CREATE TABLE author(
     is_dead BOOLEAN
 );
 
-CREATE TABLE admin (
+CREATE TABLE user (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(50) NOT NULL,
   email VARCHAR(50) NOT NULL UNIQUE,
   hash_password VARCHAR(255),
+  role ENUM("visitor", "librarian", "admin") DEFAULT "visitor",
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
