@@ -7,6 +7,7 @@ const authorController = require("./controllers/authorController");
 const userController = require("./controllers/userController");
 const { verifyToken } = require("./middlewares/auth");
 const hashPassword = require("./middlewares/hashPassword");
+const isAdmin = require("./middlewares/isAdmin");
 
 // route publique (il y en a une seule : formulaire pour se connecter au logiciel)
 
@@ -16,8 +17,8 @@ router.post("/login", userController.getUserByEmail);
 
 router.use(verifyToken);
 
-router.get("/users", userController.getAllUsers);
-router.post("/users", hashPassword, userController.addNewUser);
+router.get("/me", userController.getUserById);
+router.post("/logout", userController.logout);
 
 router.get("/books", bookController.getAllBooks);
 router.get("/books-authors", bookController.getAllBooksWithAuthors);
@@ -36,12 +37,8 @@ router.get("/authors/:id/books", authorController.getAllBooksByAuthor);
 
 // routes admins (l'admin gère les comptes des bibliothécaires en plus des autres fonctionnalités du logiciel de gestion)
 
-router.get("/users", userController.getAllUsers);
-router.post("/users", hashPassword, userController.addNewUser);
-router.get("/me", userController.getUserById);
-
-
-
-
+router.get("/users", isAdmin, userController.getAllUsers);
+router.post("/users", isAdmin, hashPassword, userController.addNewUser);
+router.delete("/users/:id", isAdmin, userController.deleteUser);
 
 module.exports = router;
