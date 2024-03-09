@@ -42,26 +42,29 @@ const getUserByEmail = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res.status(401).send("Check your email and password");
+      res.status(401).json({ message: "Remplir vos champs !" });
     } else {
       const [user] = await userManager.getUserByEmail(email);
-      if (!user.length) {
-        res.status(404).send("Not found");
-      }
 
-      const isMatch = await argon2.verify(user[0].hash_password, password);
-      if (typeof isMatch === "boolean" && isMatch) {
-        const token = jwt.sign(
-          { payload: user[0].id },
-          process.env.SECRET_KEY_JWT,
-          {
-            expiresIn: "2h",
-          }
-        );
+      if (user.length) {
+        // check password
+        const isVerify = await argon2.verify(user[0].hash_password, password);
 
-        res
-          .status(200)
-          .json({ message: `Welcome back ${user[0].username} !`, token });
+        if (typeof isVerify === "boolean" && isVerify) {
+          const token = jwt.sign(
+            { payload: user[0].id },
+            process.env.SECRET_KEY_JWT,
+            {
+              expiresIn: "2h",
+            }
+          );
+
+          res.status(200).send(token);
+        } else {
+          res.status(401).send("Email or password are wrong");
+        }
+      } else {
+        res.status(401).send("Email doesn't exists");
       }
     }
   } catch (error) {
@@ -74,7 +77,9 @@ const getUserById = async (req, res) => {
     const id = req.payload;
     const [user] = await userManager.getUserById(id);
     if (user.length) {
-      res.status(200).json({ message: "Logged in", user: user[0] });
+      res
+        .status(200)
+        .json({ message: `Welcome back ${user[0].username} !`, user: user[0] });
     } else {
       res.status(401).send("Please check your informations");
     }
@@ -115,26 +120,6 @@ const deleteUser = async (req, res, next) => {
     next(error);
   }
 };
-
-// const addNewUser = async (req, res) => {
-//   try {
-//     const [loggedInUser] = req.user;
-//     if (loggedInUser.role === "admin") {
-//       const newUser = req.body;
-//       const [result] = await userManager.queryAddNewUser(newUser);
-
-//       if (result.affectedRows) {
-//         res.send(`User created with id: ${result.insertId}`);
-//       } else {
-//         res.status(500).send("Error creating user");
-//       }
-//     } else {
-//       res.status(401).send("Unauthorized operation");
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 module.exports = {
   getAllUsers,

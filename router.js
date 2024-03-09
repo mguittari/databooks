@@ -5,9 +5,10 @@ const router = express.Router();
 const bookController = require("./controllers/bookController");
 const authorController = require("./controllers/authorController");
 const userController = require("./controllers/userController");
-const { verifyToken } = require("./middlewares/auth");
+const verifyToken = require("./middlewares/auth");
 const hashPassword = require("./middlewares/hashPassword");
 const isAdmin = require("./middlewares/isAdmin");
+const validateUser = require("./middlewares/validateUser");
 
 // route publique (il y en a une seule : formulaire pour se connecter au logiciel)
 
@@ -38,7 +39,13 @@ router.get("/authors/:id/books", authorController.getAllBooksByAuthor);
 // routes admins (l'admin gère les comptes des bibliothécaires en plus des autres fonctionnalités du logiciel de gestion)
 
 router.get("/users", isAdmin, userController.getAllUsers);
-router.post("/users", isAdmin, hashPassword, userController.addNewUser);
+router.post(
+  "/users",
+  isAdmin,
+  validateUser,
+  hashPassword,
+  userController.addNewUser
+);
 router.delete("/users/:id", isAdmin, userController.deleteUser);
 
 module.exports = router;
